@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+        }
+
+        .form-container {
+            padding: 40px 30px;
+            transition: all 0.5s ease;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h1 {
+            color: #1a2a6c;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #1a2a6c;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.1);
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+        }
+
+        .form-footer a {
+            color: #1a2a6c;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .home-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 1200px;
+            overflow: hidden;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s;
+            padding: 8px 15px;
+            border-radius: 6px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .hamburger-menu {
+            position: relative;
+        }
+
+        .hamburger-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .hamburger-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .hamburger-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            min-width: 200px;
+            display: none;
+            z-index: 1000;
+            margin-top: 5px;
+        }
+
+        .hamburger-dropdown.show {
+            display: block;
+        }
+
+        .hamburger-item {
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s;
+        }
+
+        .hamburger-item:hover {
+            background: #f8f9fa;
+        }
+
+        .hamburger-item:first-child {
+            border-radius: 10px 10px 0 0;
+        }
+
+        .hamburger-item:last-child {
+            border-radius: 0 0 10px 10px;
+        }
+
+        .account-dropdown {
+            position: relative;
+        }
+
+        .account-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            width: 40px;
+            height: 40px;
+            transition: all 0.3s;
+        }
+
+        .account-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            min-width: 200px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9fa;
+        }
+
+        .dropdown-item:first-child {
+            border-radius: 10px 10px 0 0;
+            font-weight: 600;
+            color: #1a2a6c;
+        }
+
+        .dropdown-item:last-child {
+            border-radius: 0 0 10px 10px;
+            color: #e74c3c;
+        }
+
+        .hero {
+            padding: 80px 30px;
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1597988673991-8c0f8d6d4e0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 22px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .section-navigator {
+            margin: 30px auto;
+            max-width: 400px;
+        }
+
+        .section-navigator select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .content-section {
+            padding: 60px 30px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            color: #1a2a6c;
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-header h3 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .card-body {
+            padding: 25px;
+            flex-grow: 1;
+        }
+
+        .card-body p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card-body ul {
+            padding-left: 20px;
+        }
+
+        .card-body li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+
+        .contact-info h4 {
+            color: #1a2a6c;
+            margin-bottom: 5px;
+        }
+
+        .contact-info p {
+            color: #555;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .disaster-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 150px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .weather-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .weather-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .weather-header h3 {
+            color: #1a2a6c;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .location-weather {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .location-weather h4 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .weather-info {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .weather-item {
+            text-align: center;
+        }
+
+        .weather-item i {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .weather-item p {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .weather-item span {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .india-weather {
+            margin-top: 30px;
+        }
+
+        .india-weather h4 {
+            color: #1a2a6c;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .weather-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .weather-table th,
+        .weather-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .weather-table th {
+            background: #f8f9fa;
+            color: #1a2a6c;
+            font-weight: 600;
+        }
+
+        .weather-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .weather-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .logo {
+                margin-bottom: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .nav-links li {
+                margin: 5px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .weather-table {
+                font-size: 14px;
+            }
+
+            .weather-table th,
+            .weather-table td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="container">
+        <div class="form-container">
+            <div class="form-header">
+                <h1><i class="fas fa-shield-alt"></i> Disaster Management</h1>
+                <p>Login to your account</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                    <div class="error-message" id="loginEmailError">Please enter a valid email</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                    <div class="error-message" id="loginPasswordError">Password is required</div>
+                </div>
+                
+                <button type="submit" class="btn">Login</button>
+            </form>
+            
+            <div class="form-footer">
+                <p>Don't have an account? <a href="#" id="showSignup">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Page -->
+    <div id="signupPage" class="container hidden">
+        <div class="form-container">
+            <div class="form-header">
+                <h1><i class="fas fa-user-plus"></i> Create Account</h1>
+                <p>Join our disaster management system</p>
+            </div>
+            
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" placeholder="Enter your full name" required>
+                    <div class="error-message" id="signupNameError">Name is required</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signupEmail">Email Address</label>
+                    <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                    <div class="error-message" id="signupEmailError">Please enter a valid email</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" placeholder="Create a password" required>
+                    <div class="error-message" id="signupPasswordError">Password must be at least 6 characters</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                    <div class="error-message" id="confirmPasswordError">Passwords do not match</div>
+                </div>
+                
+                <button type="submit" class="btn">Sign Up</button>
+            </form>
+            
+            <div class="form-footer">
+                <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Home Page -->
+    <div id="homePage" class="home-container hidden">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Disaster Management System</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#disasters">Types of Disasters</a></li>
+                <li><a href="#preparedness">Preparedness & Safety</a></li>
+                <li><a href="#contacts">Emergency Contacts</a></li>
+                <li><a href="#volunteer">Volunteer & Donate</a></li>
+                <li><a href="#weather">Weather Report</a></li>
+                <li><a href="#feedback">Feedback</a></li>
+            </ul>
+            <div class="nav-controls">
+                <div class="hamburger-menu">
+                    <button class="hamburger-btn" id="hamburgerBtn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="hamburger-dropdown" id="hamburgerDropdown">
+                        <a href="#disasters" class="hamburger-item">Types of Disasters</a>
+                        <a href="#preparedness" class="hamburger-item">Preparedness & Safety</a>
+                        <a href="#contacts" class="hamburger-item">Emergency Contacts</a>
+                        <a href="#volunteer" class="hamburger-item">Volunteer & Donate</a>
+                        <a href="#weather" class="hamburger-item">Weather Report</a>
+                        <a href="#feedback" class="hamburger-item">Feedback</a>
+                    </div>
+                </div>
+                <div class="account-dropdown">
+                    <button class="account-btn" id="accountBtn">
+                        <span id="userInitial">U</span>
+                    </button>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="#" class="dropdown-item" id="userEmailDisplay">user@example.com</a>
+                        <a href="#" class="dropdown-item" id="logoutBtn">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <h1>Stay Prepared, Stay Safe</h1>
+            <p>Your comprehensive resource for disaster management, emergency preparedness, and safety information</p>
+            
+           <div class="section-navigator">
+                <select id="sectionNavigator">
+                    <option value="">Navigate to Section</option>
+                    <option value="#disasters">Types of Disasters</option>
+                    <option value="#preparedness">Preparedness & Safety</option>
+                    <option value="#contacts">Emergency Contacts</option>
+                    <option value="#volunteer">Volunteer & Donate</option>
+                    <option value="#weather">Weather Report</option>
+                    <option value="#feedback">Feedback</option>
+                </select>
+            </div> 
+        </section>
+
+        <!-- Types of Disasters Section -->
+        <section id="disasters" class="content-section">
+            <div class="section-title">
+                <h2>Types of Disasters</h2>
+                <p>Understanding different types of disasters is the first step in preparedness</p>
+            </div>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <img src="https://www.brookings.edu/wp-content/uploads/2016/06/wildfire001.jpg?quality=75&w=1500" alt="Natural Disasters" class="card-image">
+                    <div class="card-header">
+                        <h3><i class="fas fa-water"></i> Natural Disasters</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Events caused by natural processes of the Earth:</p>
+                        <ul>
+                            <li>Floods</li>
+                            <li>Earthquakes</li>
+                            <li>Hurricanes</li>
+                            <li>Wildfires</li>
+                            <li>Tornadoes</li>
+                            <li>Tsunamis</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtIN2GfI6Ny-_-EC3BeUAZvf9SrGR4EBsExVTdLbObI1ZhZID5_rqj3t3_lNRadXiBJ48&usqp=CAU" alt="Technological Disasters" class="card-image">
+                    <div class="card-header">
+                        <h3><i class="fas fa-industry"></i> Technological Disasters</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Events resulting from technological failures:</p>
+                        <ul>
+                            <li>Industrial accidents</li>
+                            <li>Hazardous material spills</li>
+                            <li>Nuclear incidents</li>
+                            <li>Power outages</li>
+                            <li>Infrastructure failures</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1584483766114-2cea6facdf57?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Biological Disasters" class="card-image">
+                    <div class="card-header">
+                        <h3><i class="fas fa-biohazard"></i> Biological Disasters</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Events involving biological agents:</p>
+                        <ul>
+                            <li>Pandemics</li>
+                            <li>Epidemics</li>
+                            <li>Foodborne illnesses</li>
+                            <li>Bioterrorism</li>
+                            <li>Animal disease outbreaks</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Disaster Gallery -->
+            <div class="disaster-gallery">
+                <div class="gallery-item">
+                    <img src="https://i.natgeofe.com/k/96399cc3-475e-4ace-b2e2-41e544bf321d/earthquake-road-crop.jpg?wp=1&w=1084.125&h=1086.75" alt="Earthquake">
+                    <div class="gallery-overlay">Earthquake</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.guim.co.uk/img/media/c85f6a99a7a2b4d45e4ca9a15b2d2ed1110f5f67/0_72_3000_1800/master/3000.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=502809f19db1b7676b2d1300baeaf9d0" alt="Flood">
+                    <div class="gallery-overlay">Flood</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://cdn.britannica.com/42/188142-050-4D4D9D19/wildfire-Stanislaus-National-Forest-California-2013.jpg" alt="Wildfire">
+                    <div class="gallery-overlay">Wildfire</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://www.timeforkids.com/wp-content/uploads/2022/07/K1_220916_cover_hero.jpg?w=1024" alt="Hurricane">
+                    <div class="gallery-overlay">Hurricane</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Preparedness & Safety Section -->
+        <section id="preparedness" class="content-section">
+            <div class="section-title">
+                <h2>Preparedness & Safety</h2>
+                <p>Essential steps to prepare for and stay safe during disasters</p>
+            </div>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <img src="https://aegistechnologies.com/wp-content/uploads/2024/01/aegis-emergency-prep01.jpg" alt="Home Preparedness" class="card-image">
+                    <div class="card-header">
+                        <h3><i class="fas fa-home"></i> Home Preparedness</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Make your home disaster-ready:</p>
+                        <ul>
+                            <li>Create an emergency plan</li>
+                            <li>Build an emergency kit</li>
+                            <li>Secure heavy furniture</li>
+                            <li>Install smoke detectors</li>
+                            <li>Know utility shut-off locations</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://www.shutterstock.com/image-vector/emergency-disaster-evacuation-supply-pack-600nw-2621559993.jpg" alt="Emergency Kit" class="card-image">
+                    <div class="card-header">
+                        <h3><i class="fas fa-suitcase"></i> Emergency Kit</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Essential items for your emergency kit:</p>
+                        <ul>
+                            <li>Water (1 gallon/person/day)</li>
+                            <li>Non-perishable food</li>
+                            <li>First aid supplies</li>
+                            <li>Flashlights & batteries</li>
+                            <li>Important documents</li>
+                            <li>Medications</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <img src="https://img.freepik.com/free-vector/neighbors-windows-greeting-each-other_107791-12719.jpg" alt="Family Communication" class="card-image">
+                    <div class="card-header">
+                        <h3><i class="fas fa-users"></i> Family Communication</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Stay connected during emergencies:</p>
+                        <ul>
+                            <li>Establish meeting points</li>
+                            <li>Designate out-of-area contact</li>
+                            <li>Save emergency numbers</li>
+                            <li>Practice evacuation plans</li>
+                            <li>Consider special needs</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emergency Contacts Section -->
+        <section id="contacts" class="content-section">
+            <div class="section-title">
+                <h2>Emergency Contacts</h2>
+                <p>Important contacts for disaster situations</p>
+            </div>
+            
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="contact-info">
+                        <h4>Emergency Services</h4>
+                        <p>911</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-fire-extinguisher"></i>
+                    </div>
+                    <div class="contact-info">
+                        <h4>Fire Department</h4>
+                        <p>100</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <div class="contact-info">
+                        <h4>Medical Emergency</h4>
+                        <p>108</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="contact-info">
+                        <h4>Disaster Management</h4>
+                        <p>1908</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="contact-info">
+                        <h4>Red Cross</h4>
+                        <p>044-234-5678</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-broadcast-tower"></i>
+                    </div>
+                    <div class="contact-info">
+                        <h4>Emergency Broadcast</h4>
+                        <p>Channel 7</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Volunteer & Donation Section -->
+        <section id="volunteer" class="content-section">
+            <div class="section-title">
+                <h2>Volunteer & Donate</h2>
+                <p>Join us in making a difference during disasters</p>
+            </div>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-hands-helping"></i> Volunteer Registration</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="success-message" id="volunteerSuccess">
+                            Thank you for volunteering! We'll contact you with opportunities.
+                        </div>
+                        <form id="volunteerForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="volunteerName">Name <span class="required">*</span></label>
+                                    <input type="text" id="volunteerName" placeholder="Enter your name" required>
+                                    <div class="error-message" id="volunteerNameError">Name is required</div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="volunteerEmail">Email <span class="required">*</span></label>
+                                    <input type="email" id="volunteerEmail" placeholder="Enter your email" required>
+                                    <div class="error-message" id="volunteerEmailError">Please enter a valid email</div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="volunteerPhone">Phone <span class="required">*</span></label>
+                                <input type="tel" id="volunteerPhone" placeholder="Enter your phone number" required>
+                                <div class="error-message" id="volunteerPhoneError">Phone number is required</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="volunteerSkills">Skills <span class="required">*</span></label>
+                                <select id="volunteerSkills" required>
+                                    <option value="">Select your skills</option>
+                                    <option value="medical">Medical</option>
+                                    <option value="rescue">Rescue Operations</option>
+                                    <option value="logistics">Logistics</option>
+                                    <option value="communication">Communication</option>
+                                    <option value="general">General Support</option>
+                                </select>
+                                <div class="error-message" id="volunteerSkillsError">Please select your skills</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="volunteerLocation">Location <span class="required">*</span></label>
+                                <input type="text" id="volunteerLocation" placeholder="Enter your location" required>
+                                <div class="error-message" id="volunteerLocationError">Location is required</div>
+                            </div>
+                            
+                            <button type="submit" class="btn">Register as Volunteer</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-donate"></i> Make a Donation</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="success-message" id="donationSuccess">
+                            Thank you for your donation! We'll contact you for pickup details.
+                        </div>
+                        <form id="donationForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="donorName">Name <span class="required">*</span></label>
+                                    <input type="text" id="donorName" placeholder="Enter your name" required>
+                                    <div class="error-message" id="donorNameError">Name is required</div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="donorEmail">Email <span class="required">*</span></label>
+                                    <input type="email" id="donorEmail" placeholder="Enter your email" required>
+                                    <div class="error-message" id="donorEmailError">Please enter a valid email</div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="donationType">Type of Donation <span class="required">*</span></label>
+                                <select id="donationType" required>
+                                    <option value="">Select donation type</option>
+                                    <option value="money">Money</option>
+                                    <option value="food">Food</option>
+                                    <option value="clothes">Clothes</option>
+                                    <option value="medicine">Medicine</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <div class="error-message" id="donationTypeError">Please select donation type</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="donationDescription">Description <span class="required">*</span></label>
+                                <textarea id="donationDescription" placeholder="Describe your donation" required></textarea>
+                                <div class="error-message" id="donationDescriptionError">Description is required</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="donorLocation">Location <span class="required">*</span></label>
+                                <input type="text" id="donorLocation" placeholder="Enter your location for pickup" required>
+                                <div class="error-message" id="donorLocationError">Location is required</div>
+                            </div>
+                            
+                            <button type="submit" class="btn">Submit Donation</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weather Report Section -->
+        <section id="weather" class="content-section">
+            <div class="section-title">
+                <h2>Live Weather Report</h2>
+                <p>Stay updated with current weather conditions</p>
+            </div>
+            
+            <div class="weather-container">
+                <div class="weather-header">
+                    <h3><i class="fas fa-cloud-sun"></i> Weather Information</h3>
+                </div>
+                
+                <div class="location-weather">
+                    <h4>Current Location Weather</h4>
+                    <div class="weather-info">
+                        <div class="weather-item">
+                            <i class="fas fa-thermometer-half"></i>
+                            <p>28°C</p>
+                            <span>Temperature</span>
+                        </div>
+                        <div class="weather-item">
+                            <i class="fas fa-tint"></i>
+                            <p>65%</p>
+                            <span>Humidity</span>
+                        </div>
+                        <div class="weather-item">
+                            <i class="fas fa-wind"></i>
+                            <p>12 km/h</p>
+                            <span>Wind Speed</span>
+                        </div>
+                        <div class="weather-item">
+                            <i class="fas fa-eye"></i>
+                            <p>10 km</p>
+                            <span>Visibility</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="india-weather">
+                    <h4>Major Cities Weather Report</h4>
+                    <table class="weather-table">
+                        <thead>
+                            <tr>
+                                <th>City</th>
+                                <th>Temperature</th>
+                                <th>Condition</th>
+                                <th>Humidity</th>
+                                <th>Wind</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><i class="fas fa-map-marker-alt weather-icon"></i> Delhi</td>
+                                <td>32°C</td>
+                                <td><i class="fas fa-sun weather-icon"></i> Sunny</td>
+                                <td>45%</td>
+                                <td>8 km/h</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-map-marker-alt weather-icon"></i> Mumbai</td>
+                                <td>30°C</td>
+                                <td><i class="fas fa-cloud-rain weather-icon"></i> Rainy</td>
+                                <td>80%</td>
+                                <td>15 km/h</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-map-marker-alt weather-icon"></i> Bangalore</td>
+                                <td>26°C</td>
+                                <td><i class="fas fa-cloud weather-icon"></i> Cloudy</td>
+                                <td>60%</td>
+                                <td>10 km/h</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-map-marker-alt weather-icon"></i> Chennai</td>
+                                <td>34°C</td>
+                                <td><i class="fas fa-sun weather-icon"></i> Sunny</td>
+                                <td>55%</td>
+                                <td>12 km/h</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-map-marker-alt weather-icon"></i> Kolkata</td>
+                                <td>31°C</td>
+                                <td><i class="fas fa-cloud-sun weather-icon"></i> Partly Cloudy</td>
+                                <td>70%</td>
+                                <td>9 km/h</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-map-marker-alt weather-icon"></i> Hyderabad</td>
+                                <td>33°C</td>
+                                <td><i class="fas fa-sun weather-icon"></i> Sunny</td>
+                                <td>40%</td>
+                                <td>11 km/h</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feedback Section (Moved to Last) -->
+        <section id="feedback" class="content-section">
+            <div class="section-title">
+                <h2>Feedback</h2>
+                <p>We value your feedback and are here to help</p>
+            </div>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-comment-dots"></i> Send Feedback</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="success-message" id="feedbackSuccess">
+                            Thank you for your feedback! We'll get back to you soon.
+                        </div>
+                        <form id="feedbackForm">
+                            <div class="form-group">
+                                <label for="feedbackName">Name <span class="required">*</span></label>
+                                <input type="text" id="feedbackName" placeholder="Enter your name" required>
+                                <div class="error-message" id="feedbackNameError">Name is required</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="feedbackEmail">Email <span class="required">*</span></label>
+                                <input type="email" id="feedbackEmail" placeholder="Enter your email" required>
+                                <div class="error-message" id="feedbackEmailError">Please enter a valid email</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="feedbackType">Type <span class="required">*</span></label>
+                                <select id="feedbackType" required>
+                                    <option value="">Select type</option>
+                                    <option value="suggestion">Suggestion</option>
+                                    <option value="complaint">Complaint</option>
+                                    <option value="compliment">Compliment</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <div class="error-message" id="feedbackTypeError">Please select a type</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="feedbackMessage">Message <span class="required">*</span></label>
+                                <textarea id="feedbackMessage" placeholder="Enter your message" required></textarea>
+                                <div class="error-message" id="feedbackMessageError">Message is required</div>
+                            </div>
+                            
+                            <button type="submit" class="btn">Submit Feedback</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // DOM Elements
+        const loginPage = document.getElementById('loginPage');
+        const signupPage = document.getElementById('signupPage');
+        const homePage = document.getElementById('homePage');
+        
+        const showSignupLink = document.getElementById('showSignup');
+        const showLoginLink = document.getElementById('showLogin');
+        
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        
+        const accountBtn = document.getElementById('accountBtn');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userInitial = document.getElementById('userInitial');
+        const userEmailDisplay = document.getElementById('userEmailDisplay');
+        
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const hamburgerDropdown = document.getElementById('hamburgerDropdown');
+        
+        const sectionNavigator = document.getElementById('sectionNavigator');
+        const notification = document.getElementById('notification');
+        
+        // Valid credentials for demo
+        const validCredentials = {
+            email: 'user@example.com',
+            password: 'password123'
+        };
+        
+        // Show notification
+        function showNotification(message, type = 'error') {
+            notification.textContent = message;
+            notification.style.background = type === 'error' ? '#e74c3c' : '#27ae60';
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Show Signup Page
+        showSignupLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginPage.classList.add('hidden');
+            signupPage.classList.remove('hidden');
+        });
+        
+        // Show Login Page
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupPage.classList.add('hidden');
+            loginPage.classList.remove('hidden');
+        });
+        
+        // Account Dropdown
+        accountBtn.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('show');
+            hamburgerDropdown.classList.remove('show');
+        });
+        
+        // Hamburger Menu
+        hamburgerBtn.addEventListener('click', () => {
+            hamburgerDropdown.classList.toggle('show');
+            dropdownMenu.classList.remove('show');
+        });
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!accountBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+            if (!hamburgerBtn.contains(e.target) && !hamburgerDropdown.contains(e.target)) {
+                hamburgerDropdown.classList.remove('show');
+            }
+        });
+        
+        // Logout
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            homePage.classList.add('hidden');
+            loginPage.classList.remove('hidden');
+            dropdownMenu.classList.remove('show');
+            showNotification('Logged out successfully!', 'success');
+        });
+        
+        // Section Navigator
+        sectionNavigator.addEventListener('change', (e) => {
+            const target = e.target.value;
+            if (target) {
+                const element = document.querySelector(target);
+                if (element) {
+                    element.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                sectionNavigator.value = '';
+            }
+        });
+        
+        // Login Form Submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Simple validation
+            let isValid = true;
+            
+            if (!email || !email.includes('@')) {
+                document.getElementById('loginEmailError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('loginEmailError').style.display = 'none';
+            }
+            
+            if (!password) {
+                document.getElementById('loginPasswordError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('loginPasswordError').style.display = 'none';
+            }
+            
+            if (isValid) {
+                // Check credentials
+                if (email === validCredentials.email && password === validCredentials.password) {
+                    // Set user initial in account dropdown
+                    userInitial.textContent = email.charAt(0).toUpperCase();
+                    userEmailDisplay.textContent = email;
+                    
+                    // Redirect to home page
+                    loginPage.classList.add('hidden');
+                    homePage.classList.remove('hidden');
+                    showNotification('Login successful!', 'success');
+                } else {
+                    showNotification('Invalid email or password. Please try again.');
+                }
+            }
+        });
+        
+        // Signup Form Submission
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            // Simple validation
+            let isValid = true;
+            
+            if (!name) {
+                document.getElementById('signupNameError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('signupNameError').style.display = 'none';
+            }
+            
+            if (!email || !email.includes('@')) {
+                document.getElementById('signupEmailError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('signupEmailError').style.display = 'none';
+            }
+            
+            if (password.length < 6) {
+                document.getElementById('signupPasswordError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('signupPasswordError').style.display = 'none';
+            }
+            
+            if (password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('confirmPasswordError').style.display = 'none';
+            }
+            
+            if (isValid) {
+                // Set user initial in account dropdown
+                userInitial.textContent = name.charAt(0).toUpperCase();
+                userEmailDisplay.textContent = email;
+                
+                // Redirect to home page
+                signupPage.classList.add('hidden');
+                homePage.classList.remove('hidden');
+                showNotification('Account created successfully!', 'success');
+            }
+        });
+        
+        // Feedback Form Submission
+        document.getElementById('feedbackForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('feedbackName').value;
+            const email = document.getElementById('feedbackEmail').value;
+            const type = document.getElementById('feedbackType').value;
+            const message = document.getElementById('feedbackMessage').value;
+            
+            let isValid = true;
+            
+            if (!name) {
+                document.getElementById('feedbackNameError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('feedbackNameError').style.display = 'none';
+            }
+            
+            if (!email || !email.includes('@')) {
+                document.getElementById('feedbackEmailError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('feedbackEmailError').style.display = 'none';
+            }
+            
+            if (!type) {
+                document.getElementById('feedbackTypeError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('feedbackTypeError').style.display = 'none';
+            }
+            
+            if (!message) {
+                document.getElementById('feedbackMessageError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('feedbackMessageError').style.display = 'none';
+            }
+            
+            if (isValid) {
+                document.getElementById('feedbackSuccess').style.display = 'block';
+                document.getElementById('feedbackForm').reset();
+                showNotification('Feedback submitted successfully!', 'success');
+                setTimeout(() => {
+                    document.getElementById('feedbackSuccess').style.display = 'none';
+                }, 5000);
+            }
+        });
+        
+        // Volunteer Form Submission
+        document.getElementById('volunteerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('volunteerName').value;
+            const email = document.getElementById('volunteerEmail').value;
+            const phone = document.getElementById('volunteerPhone').value;
+            const skills = document.getElementById('volunteerSkills').value;
+            const location = document.getElementById('volunteerLocation').value;
+            
+            let isValid = true;
+            
+            if (!name) {
+                document.getElementById('volunteerNameError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('volunteerNameError').style.display = 'none';
+            }
+            
+            if (!email || !email.includes('@')) {
+                document.getElementById('volunteerEmailError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('volunteerEmailError').style.display = 'none';
+            }
+            
+            if (!phone) {
+                document.getElementById('volunteerPhoneError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('volunteerPhoneError').style.display = 'none';
+            }
+            
+            if (!skills) {
+                document.getElementById('volunteerSkillsError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('volunteerSkillsError').style.display = 'none';
+            }
+            
+            if (!location) {
+                document.getElementById('volunteerLocationError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('volunteerLocationError').style.display = 'none';
+            }
+            
+            if (isValid) {
+                document.getElementById('volunteerSuccess').style.display = 'block';
+                document.getElementById('volunteerForm').reset();
+                showNotification('Volunteer registration successful!', 'success');
+                setTimeout(() => {
+                    document.getElementById('volunteerSuccess').style.display = 'none';
+                }, 5000);
+            }
+        });
+        
+        // Donation Form Submission
+        document.getElementById('donationForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('donorName').value;
+            const email = document.getElementById('donorEmail').value;
+            const type = document.getElementById('donationType').value;
+            const description = document.getElementById('donationDescription').value;
+            const location = document.getElementById('donorLocation').value;
+            
+            let isValid = true;
+            
+            if (!name) {
+                document.getElementById('donorNameError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('donorNameError').style.display = 'none';
+            }
+            
+            if (!email || !email.includes('@')) {
+                document.getElementById('donorEmailError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('donorEmailError').style.display = 'none';
+            }
+            
+            if (!type) {
+                document.getElementById('donationTypeError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('donationTypeError').style.display = 'none';
+            }
+            
+            if (!description) {
+                document.getElementById('donationDescriptionError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('donationDescriptionError').style.display = 'none';
+            }
+            
+            if (!location) {
+                document.getElementById('donorLocationError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('donorLocationError').style.display = 'none';
+            }
+            
+            if (isValid) {
+                document.getElementById('donationSuccess').style.display = 'block';
+                document.getElementById('donationForm').reset();
+                showNotification('Donation submitted successfully!', 'success');
+                setTimeout(() => {
+                    document.getElementById('donationSuccess').style.display = 'none';
+                }, 5000);
+            }
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                // Close hamburger menu after selection
+                hamburgerDropdown.classList.remove('show');
+            });
+        });
+    </script>
+</body>
+</html>
